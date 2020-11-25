@@ -19,7 +19,7 @@ def mel2wav(mel):
     wav_out = generate_wavegan(
         mel, *vocoder)
     wav_out = wav_out.cpu().numpy()
-    return wav_out
+    return wav_out.T
 
 
 def process_utterance(wav,
@@ -133,7 +133,6 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
     name_clips = np.split(wav_raw, windices)
     name_clips_mel = [process_utterance(name_clip) for name_clip in name_clips]
 
-    map(process_utterance, name_clips)
     ipdb.set_trace()
     wav_out = mel2wav(name_clips_mel[0])
     for name_index in range(len(ori_names_list)):
