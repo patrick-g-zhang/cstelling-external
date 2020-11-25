@@ -20,7 +20,7 @@ for wav_path in glob.glob(f'{generated_path}/*.wav'):
     assert len(res_list) == 2
     name_clip_name = res_list[-1]
     seg_name = name_clip_name[:-4]
-    clips = re.split(r"\-", name_clip_name)
+    clips = re.split(r"\_", name_clip_name)
     name_clip_in_seg_index = clips[-2]
     name_index = clips[-1]
     generated_names_dict[name_clip_name] = [
