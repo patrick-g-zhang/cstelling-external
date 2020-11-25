@@ -34,11 +34,17 @@ for k, v in generated_names_dict.items():
 
 
 for wav_path in glob.glob(f'{wav_dir}/*.wav'):
-    ipdb.set_trace()
-    wav_raw, sr = librosa.core.load(wav_path, sr=22050)
+    # check name exisits
     item_seg_name = os.path.basename(wav_path)[:-4]
     generated_name_list = [
         v for k, v in generated_names_dict.items() if item_seg_name in k]
+
+    if len(generated_name_list) == 0:
+        continue
+
+    ipdb.set_trace()
+    wav_raw, sr = librosa.core.load(wav_path, sr=22050)
+
     ori_names_list = [
         name_dict for name_dict in name_dicts if name_dict['seg_k'] == item_seg_name]
     # sort by start samples
@@ -52,8 +58,5 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
         windices.append(start_sample)
         windices.append(end_sample)
         name_clips = np.split(wav_raw, windices)
-
-    if len(generated_name_list) == 0:
-        continue
 
     ipdb.set_trace()
