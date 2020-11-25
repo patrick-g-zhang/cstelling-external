@@ -79,6 +79,7 @@ if copy_wav_file:
 generated_names_dict = {}
 for wav_path in glob.glob(f'{name0_dir}/*.wav'):
     item_name = os.path.basename(wav_path)[:-4]
+    ipdb.set_trace()
     name_in_seg_index = item_name[-1]
     seg_name = item_name[:-2]
 
@@ -118,6 +119,4 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
     name_clips = np.split(wav_raw, windices)
     name_clips_mel = map(process_utterance, name_clips)
 
-    for replace_name_index in range(replace_name_amount):
-
-        ipdb.set_trace()
+    for sent_index in range(len(ori_names_list)):
