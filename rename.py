@@ -26,6 +26,11 @@ for wav_path in glob.glob(f'{generated_path}/*.wav'):
         seg_name, name_clip_in_seg_index, name_index]
 
 
+for k, v in generated_names_dict.items():
+    if '大小白鷺' in k:
+        ipdb.set_trace()
+
+
 for wav_path in glob.glob(f'{wav_dir}/*.wav'):
     item_seg_name = os.path.basename(wav_path)
     generated_name_list = [
