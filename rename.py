@@ -76,15 +76,13 @@ if copy_wav_file:
     copy_wavs(name1_dir, generated_dir, 1)
 
 
-ipdb.set_trace()
-
-
 generated_names_dict = {}
 for wav_path in glob.glob(f'{name0_dir}/*.wav'):
     item_name = os.path.basename(wav_path)[:-4]
-    clips = re.split(r"\_", item_name)
-    seg_name = clips[0]
-    name_in_seg_index = clips[-1]
+    name_in_seg_index = item_name[-1]
+    seg_name = item_name[:-2]
+    ipdb.set_trace()
+
     if generated_names_dict.get(seg_name) is None:
         generated_names_dict[seg_name] = dict()
     generated_names_dict[seg_name][name_in_seg_index] = wav_path
