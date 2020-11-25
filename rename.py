@@ -15,7 +15,6 @@ generated_path = "/home/gyzhang/fastspeech2-master/checkpoints/fs2_ref_utt_story
 generated_names_dict = {}
 for wav_path in glob.glob(f'{generated_path}/*.wav'):
     item_name = os.path.basename(wav_path)
-    ipdb.set_trace()
     res_list = re.findall(r'\[(.*?)\]', item_name)
     assert len(res_list) == 2
     name_clip_name = res_list[-1]
@@ -29,4 +28,6 @@ for wav_path in glob.glob(f'{generated_path}/*.wav'):
 
 for wav_path in glob.glob(f'{wav_dir}/*.wav'):
     item_seg_name = os.path.basename(wav_path)
+    generated_name_list = [
+        v for k, v in generated_names_dict.items() if item_seg_name in k]
     ipdb.set_trace()
