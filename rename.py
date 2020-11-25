@@ -35,4 +35,6 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
     item_seg_name = os.path.basename(wav_path)
     generated_name_list = [
         v for k, v in generated_names_dict.items() if item_seg_name in k]
+    if len(generated_name_list) == 0:
+        continue
     ipdb.set_trace()
