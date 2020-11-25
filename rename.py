@@ -86,6 +86,8 @@ name0_out_dir = f'{data_dir}/out_name0'
 os.makedirs(name0_out_dir, exist_ok=True)
 name1_dir = f'{data_dir}/name1'
 
+ori_out_dir = f'{data_dir}/ori'
+os.makedirs(ori_out_dir, exist_ok=True)
 # copy files
 copy_wav_file = False
 if copy_wav_file:
@@ -117,6 +119,7 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
 
     wav_raw, sr = librosa.core.load(wav_path, sr=22050)
     out_wav_path = f'{name0_out_dir}/{item_seg_name}.wav'
+    ori_out_wav_path = f'{ori_out_dir}/{item_seg_name}.wav'
 
     ori_names_list = [
         name_dict for name_dict in name_dicts if name_dict['seg_k'] == item_seg_name]
@@ -138,6 +141,9 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
 
     # ipdb.set_trace()
     name_clips_wav = [mel2wav(name_clip) for name_clip in name_clips_mel]
+    ori_name_seg = np.concatenate(name_clips_wav)
+    ori_name_seg *= 32767
+    wavfile.write(ori_out_wav_path, sr, ori_name_seg.astype(np.int16))
     for name_index in range(len(ori_names_list)):
         wav_path = generated_name_dict[str(name_index)]
         name_wav, sr = librosa.core.load(wav_path, sr=22050)
