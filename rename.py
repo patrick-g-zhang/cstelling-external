@@ -42,7 +42,6 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
     if len(generated_name_list) == 0:
         continue
 
-    ipdb.set_trace()
     wav_raw, sr = librosa.core.load(wav_path, sr=22050)
 
     ori_names_list = [
@@ -51,6 +50,7 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
     ori_names_list.sort(key=lambda x: x['start_sample'])
 
     # cut into different clips
+    ipdb.set_trace()
     windices = []
     for ori_name_dict in ori_names_list:
         start_sample = ori_name_dict['start_sample']
