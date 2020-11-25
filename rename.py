@@ -70,32 +70,24 @@ name0_dir = f'{data_dir}/name0'
 name1_dir = f'{data_dir}/name1'
 
 # copy files
-ipdb.set_trace()
-copy_wavs(name0_dir, generated_dir, 0)
-copy_wavs(name1_dir, generated_dir, 1)
+copy_wav_file = False
+if copy_wav_file:
+    copy_wavs(name0_dir, generated_dir, 0)
+    copy_wavs(name1_dir, generated_dir, 1)
 
 
 ipdb.set_trace()
 
 
 generated_names_dict = {}
-for wav_path in glob.glob(f'{generated_path}/*.wav'):
-    if generated_names_dict.get(name_clip_name) is None:
-        generated_names_dict[name_clip_name] = [[] * replace_name_amount]
+for wav_path in glob.glob(f'{name0_dir}/*.wav'):
     item_name = os.path.basename(wav_path)
-    res_list = re.findall(r'\[(.*?)\]', item_name)
-    assert len(res_list) == 2
-    name_clip_name = res_list[-1]
-    seg_name = name_clip_name[:-4]
-    clips = re.split(r"\_", name_clip_name)
-    name_in_seg_index = clips[-2]
-    name_index = int(clips[-1])
-    generated_names_dict[name_clip_name][name_index].append(name_in_seg_index)
-
-
-for k, v in generated_names_dict.items():
-    if '大小白鷺' in k:
-        ipdb.set_trace()
+    clips = re.split(r"\_", item_name)
+    seg_name = clips[0]
+    name_in_seg_index = clips[-1]
+    if generated_names_dict.get(seg_name) is None:
+        generated_names_dict[seg_name] = dict()
+    generated_names_dict[seg_name][name_in_seg_index] = wav_path
 
 
 for wav_path in glob.glob(f'{wav_dir}/*.wav'):
