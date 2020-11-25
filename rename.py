@@ -50,13 +50,13 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
     ori_names_list.sort(key=lambda x: x['start_sample'])
 
     # cut into different clips
-    ipdb.set_trace()
     windices = []
     for ori_name_dict in ori_names_list:
         start_sample = ori_name_dict['start_sample']
         end_sample = ori_name_dict['end_sample']
         windices.append(start_sample)
         windices.append(end_sample)
-        name_clips = np.split(wav_raw, windices)
+    ipdb.set_trace()
+    name_clips = np.split(wav_raw, windices)
 
     ipdb.set_trace()
