@@ -81,7 +81,7 @@ ipdb.set_trace()
 
 generated_names_dict = {}
 for wav_path in glob.glob(f'{name0_dir}/*.wav'):
-    item_name = os.path.basename(wav_path)
+    item_name = os.path.basename(wav_path)[:-4]
     clips = re.split(r"\_", item_name)
     seg_name = clips[0]
     name_in_seg_index = clips[-1]
