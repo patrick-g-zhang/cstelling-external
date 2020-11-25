@@ -120,3 +120,4 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
     name_clips_mel = map(process_utterance, name_clips)
 
     for sent_index in range(len(ori_names_list)):
+        pass
