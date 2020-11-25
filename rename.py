@@ -3,6 +3,8 @@ import ipdb
 import glob
 import os
 import re
+import librosa
+import numpy as np
 
 name_json_path = "/home/gyzhang/fastspeech2-master/checkpoints/fs2_ref_utt_story/generated_200000_/name_matchedList.json"
 name_dicts = json.load(open(name_json_path))
@@ -11,7 +13,7 @@ wav_dir = "/home/gyzhang/speech_database/CSTelling/20200913_120655_clean_ph_lab/
 generated_path = "/home/gyzhang/fastspeech2-master/checkpoints/fs2_ref_utt_story/generated_200000_/wavs/"
 
 ### process generate wavs #######
-
+replace_name_amount = 2
 generated_names_dict = {}
 for wav_path in glob.glob(f'{generated_path}/*.wav'):
     item_name = os.path.basename(wav_path)
@@ -32,11 +34,25 @@ for k, v in generated_names_dict.items():
 
 
 for wav_path in glob.glob(f'{wav_dir}/*.wav'):
+    ipdb.set_trace()
+    wav_raw, sr = librosa.core.load(wav_path, sr=22050)
     item_seg_name = os.path.basename(wav_path)[:-4]
     generated_name_list = [
         v for k, v in generated_names_dict.items() if item_seg_name in k]
     ori_names_list = [
         name_dict for name_dict in name_dicts if name_dict['seg_k'] == item_seg_name]
+    # sort by start samples
+    ori_names_list.sort(key=lambda x: x['start_sample'])
+
+    # cut into different clips
+    windices = []
+    for ori_name_dict in ori_names_list:
+        start_sample = x['start_sample']
+        end_sample = x['end_sample']
+        windices.append(start_sample)
+        windices.append(end_sample)
+        name_clips = np.split(wav_raw, windices)
+
     if len(generated_name_list) == 0:
         continue
 
