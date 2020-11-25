@@ -11,7 +11,7 @@ from utils.pwg_decode_from_mel import generate_wavegan, load_pwg_model
 vocoder = load_pwg_model(
     config_path="/home/gyzhang/fastspeech2-master/wavegan_pretrained/config.yaml",
     checkpoint_path="/home/gyzhang/fastspeech2-master/wavegan_pretrained/checkpoint-1000000steps.pkl",
-    stats_path='="/home/gyzhang/fastspeech2-master/wavegan_pretrained/stats.h5',
+    stats_path="/home/gyzhang/fastspeech2-master/wavegan_pretrained/stats.h5",
 )
 
 
