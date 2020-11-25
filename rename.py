@@ -92,9 +92,7 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
 
     item_seg_name = os.path.basename(wav_path)[:-4]
     generated_name_list = [
-        v for k, v in generated_names_dict.items() if item_seg_name == k]
-
-    ipdb.set_trace()
+        v for k, v in generated_names_dict.items() if item_seg_name in k]
 
     if len(generated_name_list) == 0:
         continue
@@ -116,6 +114,7 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
         windices.append(end_sample)
         name_clips_indices.append(2 * num + 1)
     ipdb.set_trace()
+
     name_clips = np.split(wav_raw, windices)
     name_clips_mel = map(process_utterance, name_clips)
 
