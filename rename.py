@@ -94,10 +94,11 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
     generated_name_list = [
         v for k, v in generated_names_dict.items() if item_seg_name == k]
 
+    ipdb.set_trace()
+
     if len(generated_name_list) == 0:
         continue
 
-    ipdb.set_trace()
     wav_raw, sr = librosa.core.load(wav_path, sr=22050)
 
     ori_names_list = [
