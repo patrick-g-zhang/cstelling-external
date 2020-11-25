@@ -19,7 +19,7 @@ def mel2wav(mel):
     wav_out = generate_wavegan(
         mel, *vocoder)
     wav_out = wav_out.cpu().numpy()
-    return wav_out.T
+    return wav_out
 
 
 def process_utterance(wav,
@@ -52,7 +52,7 @@ def process_utterance(wav,
     if vocoder == 'pwg':
         mel = np.log10(np.maximum(eps, mel))  # (n_mel_bins, T)
 
-    return mel
+    return mel.T
 
 
 def copy_wavs(tgt_dir, src_dir, index):
