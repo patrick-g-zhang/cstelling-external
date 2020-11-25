@@ -81,7 +81,6 @@ for wav_path in glob.glob(f'{name0_dir}/*.wav'):
     item_name = os.path.basename(wav_path)[:-4]
     name_in_seg_index = item_name[-1]
     seg_name = item_name[:-2]
-    ipdb.set_trace()
 
     if generated_names_dict.get(seg_name) is None:
         generated_names_dict[seg_name] = dict()
@@ -90,9 +89,11 @@ for wav_path in glob.glob(f'{name0_dir}/*.wav'):
 
 for wav_path in glob.glob(f'{wav_dir}/*.wav'):
     # check name exisits
+    ipdb.set_trace()
+
     item_seg_name = os.path.basename(wav_path)[:-4]
     generated_name_list = [
-        v for k, v in generated_names_dict.items() if item_seg_name in k]
+        v for k, v in generated_names_dict.items() if item_seg_name == k]
 
     if len(generated_name_list) == 0:
         continue
