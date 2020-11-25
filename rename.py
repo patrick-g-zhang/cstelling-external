@@ -7,6 +7,7 @@ import librosa
 import numpy as np
 import shutil
 from utils.pwg_decode_from_mel import generate_wavegan, load_pwg_model
+from scipy.io import wavfile
 
 vocoder = load_pwg_model(
     config_path="/home/gyzhang/fastspeech2-master/wavegan_pretrained/config.yaml",
@@ -81,6 +82,7 @@ data_dir = "/home/gyzhang/fastspeech2-master/checkpoints/fs2_ref_utt_story/gener
 ### process generate wavs #######
 replace_name_amount = 2
 name0_dir = f'{data_dir}/name0'
+name0_out_dir = f'{data_dir}/out_name0'
 name1_dir = f'{data_dir}/name1'
 
 # copy files
@@ -113,6 +115,7 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
         continue
 
     wav_raw, sr = librosa.core.load(wav_path, sr=22050)
+    out_wav_path = f'{name0_out_dir}/{item_seg_name}.wav'
 
     ori_names_list = [
         name_dict for name_dict in name_dicts if name_dict['seg_k'] == item_seg_name]
@@ -128,12 +131,17 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
         windices.append(start_sample)
         windices.append(end_sample)
         name_clips_indices.append(2 * num + 1)
-    ipdb.set_trace()
 
     name_clips = np.split(wav_raw, windices)
     name_clips_mel = [process_utterance(name_clip) for name_clip in name_clips]
 
     ipdb.set_trace()
-    wav_out = mel2wav(name_clips_mel[0])
+    name_clips_wav = [mel2wav(name_clip) for name_clip in name_clips_mel]
     for name_index in range(len(ori_names_list)):
         wav_path = generated_name_dict[str(name_index)]
+        name_wav = librosa.core.load(wav_path, sr=22050)
+        name_clips_wav[name_clips_indices[name_index]] = name_wav
+    re_name_seg = np.concatenate(name_clips_wav)
+    re_name_seg *= 32767
+    # proposed by @dsmiller
+    wavfile.write(path, sr, re_name_seg.astype(np.int16))
