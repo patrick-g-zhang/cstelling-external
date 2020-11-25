@@ -136,7 +136,7 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
     name_clips = np.split(wav_raw, windices)
     name_clips_mel = [process_utterance(name_clip) for name_clip in name_clips]
 
-    ipdb.set_trace()
+    # ipdb.set_trace()
     name_clips_wav = [mel2wav(name_clip) for name_clip in name_clips_mel]
     for name_index in range(len(ori_names_list)):
         wav_path = generated_name_dict[str(name_index)]
