@@ -6,6 +6,20 @@ import re
 import librosa
 import numpy as np
 import shutil
+from utils.pwg_decode_from_mel import generate_wavegan, load_pwg_model
+
+vocoder = load_pwg_model(
+    config_path="/home/gyzhang/fastspeech2-master/wavegan_pretrained/config.yaml",
+    checkpoint_path="/home/gyzhang/fastspeech2-master/wavegan_pretrained/checkpoint-1000000steps.pkl",
+    stats_path='="/home/gyzhang/fastspeech2-master/wavegan_pretrained/stats.h5',
+)
+
+
+def mel2wav(mel):
+    wav_out = generate_wavegan(
+        mel, *vocoder)
+    wav_out = wav_out.cpu().numpy()
+    return wav_out
 
 
 def process_utterance(wav,
@@ -92,10 +106,10 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
     # check name exisits
 
     item_seg_name = os.path.basename(wav_path)[:-4]
-    generated_name_list = [
-        v for k, v in generated_names_dict.items() if item_seg_name in k]
 
-    if len(generated_name_list) == 0:
+    generated_name_dict = generated_names_dict.get(item_seg_name)
+
+    if generated_name_dict is None:
         continue
 
     wav_raw, sr = librosa.core.load(wav_path, sr=22050)
@@ -118,6 +132,7 @@ for wav_path in glob.glob(f'{wav_dir}/*.wav'):
 
     name_clips = np.split(wav_raw, windices)
     name_clips_mel = map(process_utterance, name_clips)
-
-    for sent_index in range(len(ori_names_list)):
-        pass
+    ipdb.set_trace()
+    wav_out = mel2wav(name_clips_mel[0])
+    for name_index in range(len(ori_names_list)):
+        wav_path = generated_name_dict[str(name_index)]
